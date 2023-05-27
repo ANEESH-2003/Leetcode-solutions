@@ -19,12 +19,25 @@ public:
     }
     string stoneGameIII(vector<int>& v) {
         n=v.size();
-        int s=accumulate(v.begin(),v.end(),0);
-        vector<int> dp(n,-1);
-        int c=cal(v,0,0,dp);
-        if(0<c)
+        v.push_back(0);
+        v.push_back(0);
+        vector<int> dp=v;
+        dp.push_back(0);
+        for(int i=n-1;i>=0;i--)
+        {
+            int maxi=INT_MIN;
+            int s=0;
+            for(int j=0;j<=2;j++)
+            {
+                s+=v[i+j];
+                maxi=max(maxi,s-dp[i+j+1]);
+            }
+            dp[i]=maxi;
+        }
+        /*int c=cal(v,0,0,dp);*/
+        if(0<dp[0])
             return "Alice";
-        else if(0>c)
+        else if(0>dp[0])
             return "Bob";
         else
             return "Tie";
