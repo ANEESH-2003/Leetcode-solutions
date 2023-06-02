@@ -4,9 +4,9 @@ public:
     {
         return (pow((a[0]-b[0]),2)+pow((a[1]-b[1]),2)<=pow((a[2]),2));
     }
-    int fun(vector<vector<int>>& v,vector<int>& vis,int i)
+    int fun(vector<vector<int>>& v,vector<bool>& vis,int i)
     {
-        vis[i]++;
+        vis[i]=!vis[i];
         int c=1;
         for(auto j:v[i])
         {
@@ -30,7 +30,7 @@ public:
         }
         for(int i=0;i<n;i++)
         {
-            vector<int> vis(n,0);
+            vector<bool> vis(n,0);
             maxi=max(maxi,fun(v,vis,i));
         }
         return maxi;
