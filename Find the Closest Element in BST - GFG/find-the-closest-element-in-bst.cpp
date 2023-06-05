@@ -41,8 +41,11 @@ class Solution
     {
         if(!root)
             return INT_MAX;
-        int ans=abs(root->data-k);
-        ans=min(ans,min(minDiff(root->left,k),minDiff(root->right,k)));
+        int ans=(root->data-k);
+        if(ans>0)
+            ans=min(abs(ans),minDiff(root->left,k));
+        else if(ans<0)
+            ans=min(abs(ans),minDiff(root->right,k));
         return ans;
     }
 };
