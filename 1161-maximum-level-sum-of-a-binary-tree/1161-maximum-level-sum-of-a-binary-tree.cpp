@@ -11,25 +11,32 @@
  */
 class Solution {
 public:
-    void cal(vector<int>& v,TreeNode* root,int l)
-    {
-        if(v.size()==l)
-            v.push_back(root->val);
-        else
-            v[l]+=root->val;
-        if(root->left)
-            cal(v,root->left,l+1);
-        if(root->right)
-            cal(v,root->right,l+1);
-    }
     int maxLevelSum(TreeNode* root) {
-        vector<int> v;
-        cal(v,root,0);
+        queue<TreeNode*> q;
+        int l=0;
         int maxi=0;
-        for(int i=0;i<v.size();i++)
+        int mc=root->val;
+        q.push(root);
+        while(!q.empty())
         {
-            if(v[i]>v[maxi])
-                maxi=i;
+            int c=q.size();
+            int s=0;
+            while(c--)
+            {
+                TreeNode* t=q.front();
+                q.pop();
+                s+=t->val;
+                if(t->left)
+                    q.push(t->left);
+                if(t->right)
+                    q.push(t->right);
+            }
+            if(s>mc)
+            {
+                mc=s;
+                maxi=l;
+            }
+            l++;
         }
         return maxi+1;
     }
