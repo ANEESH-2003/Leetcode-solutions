@@ -7,32 +7,30 @@ class Solution
 {
 	public:
 	//Function to return list containing vertices in Topological order. 
+	void cal(int x,vector<int>& vis,stack<int>& s,vector<int> adj[])
+	{
+	    vis[x]++;
+	    for(auto j:adj[x])
+	    {
+	        if(!vis[j])
+	            cal(j,vis,s,adj);
+	    }
+	    s.push(x);
+	}
 	vector<int> topoSort(int n, vector<int> adj[]) 
 	{
-	    queue<int> q;
-	    vector<int> v(n,0);
+	    vector<int> vis(n,0);
+	    stack<int> s;
 	    for(int i=0;i<n;i++)
 	    {
-	        for(auto j:adj[i])
-	            v[j]++;
-	    }
-	    for(int i=0;i<n;i++)
-	    {
-	        if(v[i]==0)
-	            q.push(i);
+	        if(!vis[i])
+	            cal(i,vis,s,adj);
 	    }
 	    vector<int> ans;
-	    while(!q.empty())
+	    while(!s.empty())
 	    {
-	        int f=q.front();
-	        q.pop();
-	        ans.push_back(f);
-	        for(auto i:adj[f])
-	        {
-	            v[i]--;
-	            if(v[i]==0)
-	                q.push(i);
-	        }
+	        ans.push_back(s.top());
+	        s.pop();
 	    }
 	    return ans;
 	}
