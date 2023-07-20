@@ -20,19 +20,23 @@ class Solution
                 g[j].push_back({i[0],i[1]});
             }
         }
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
-        q.push({0,s});
+        set<pair<int,int>> st;
+        st.insert({0,s});
         v[s]=0;
-        while(!q.empty())
+        while(!st.empty())
         {
-            pair<int,int> p=q.top();
-            q.pop();
+            auto b=st.begin();
+            pair<int,int> p=*b;
+            st.erase(b);
             for(auto i:g[p.second])
             {
-                if(v[i.first]>i.second+p.first)
+                if(v[i.first]>p.first+i.second)
                 {
-                    v[i.first]=i.second+p.first;
-                    q.push({v[i.first],i.first});
+                    auto f=st.find({v[i.first],i.first});
+                    if(f!=st.end())
+                        st.erase(f);
+                    v[i.first]=p.first+i.second;
+                    st.insert({v[i.first],i.first});
                 }
             }
         }
