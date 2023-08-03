@@ -15,19 +15,22 @@ class Solution {
             v[i[0]].push_back({i[1],i[2]});
         }
         vector<int> ans(n,INT_MAX);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> p;
-        p.push({0,0});
+        set<pair<int,int>> p;
+        p.insert({0,0});
         ans[0]=0;
         while(!p.empty())
         {
-            pair<int,int> f=p.top();
-            p.pop();
+            auto x=p.begin();
+            pair<int,int> f=*x;
+            p.erase(x);
             for(auto i:v[f.second])
             {
                 if(ans[i.first]>f.first+i.second)
                 {
+                    if(ans[i.first]!=INT_MAX)
+                        p.erase(p.find({ans[i.first],i.first}));
                     ans[i.first]=f.first+i.second;
-                    p.push({ans[i.first],i.first});
+                    p.insert({ans[i.first],i.first});
                 }
             }
         }
