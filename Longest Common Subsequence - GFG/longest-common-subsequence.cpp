@@ -25,18 +25,21 @@ class Solution
     int lcs(int n, int m, string s1, string s2)
     {
         // your code here
-        vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+        vector<int> c(m+1,0),p(m+1,0);
         for(int i=1;i<=n;i++)
         {
+            c[0]=0;
             for(int j=1;j<=m;j++)
             {
+                c[j]=0;
                 if(s1[i-1]==s2[j-1])
-                    dp[i][j]=1+dp[i-1][j-1];
-                dp[i][j]=max(dp[i][j],max(dp[i-1][j],dp[i][j-1]));
+                    c[j]=1+p[j-1];
+                c[j]=max(c[j],max(p[j],c[j-1]));
             }
+            p=c;
         }
-        return dp[n][m];
-        return cal(0,0,n,m,s1,s2,dp);
+        return c[m];
+        //return cal(0,0,n,m,s1,s2,dp);
     }
 };
 
