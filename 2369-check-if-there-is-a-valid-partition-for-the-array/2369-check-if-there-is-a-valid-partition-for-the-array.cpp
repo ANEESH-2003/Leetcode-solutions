@@ -20,7 +20,23 @@ public:
         return dp[i]=ans;
     }
     bool validPartition(vector<int>& v) {
-        vector<int> dp(v.size(),-1);
-        return cal(0,v,dp);
+        vector<bool> dp(v.size()+1,0);
+        int n=v.size();
+        dp[n]=1;
+        for(int i=n-2;i>=0;i--)
+        {
+            if(i+1<n)
+            {
+                if(v[i]==v[i+1])
+                    dp[i]=dp[i]|dp[i+2];
+            }
+            if(i+2<n)
+            {
+                if((v[i]==v[i+1] && v[i]==v[i+2]) || (v[i]+1==v[i+1] && v[i]+2==v[i+2]))
+                    dp[i]=dp[i]|dp[i+3];
+            }
+        }
+        return dp[0];
+        //return cal(0,v,dp);
     }
 };
