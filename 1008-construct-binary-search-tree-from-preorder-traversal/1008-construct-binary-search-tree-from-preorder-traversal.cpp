@@ -12,12 +12,12 @@
 class Solution {
 public:
     int i=0;
-    TreeNode* bstFromPreorder(vector<int>& v,int p=INT_MAX) {
-        if(i==v.size() || v[i]>p)
+    TreeNode* bstFromPreorder(vector<int>& preorder,int maxi=INT_MAX,int mini=INT_MIN) {
+        if(i==preorder.size() || preorder[i]>=maxi || preorder[i]<=mini)
             return NULL;
-        TreeNode* t=new TreeNode(v[i++]);
-        t->left=bstFromPreorder(v,t->val);
-        t->right=bstFromPreorder(v,p);
-        return t;
+        int v=preorder[i];
+        i++;
+        TreeNode* root=new TreeNode(v,bstFromPreorder(preorder,v,mini),bstFromPreorder(preorder,maxi,v));
+        return root;
     }
 };
