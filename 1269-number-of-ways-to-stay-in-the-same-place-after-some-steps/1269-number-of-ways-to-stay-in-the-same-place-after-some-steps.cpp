@@ -22,7 +22,20 @@ public:
     int numWays(int s, int N) {
         n=N;
         l=min(n-1,s/2);
-        vector<vector<int>> v(l+1,vector<int>(s+1,-1));
-        return cal(s,0,v);
+        vector<vector<int>> v(l+1,vector<int>(s+1,0));
+        v[0][0]=1;
+        for(int j=1;j<=s;j++)
+        {
+            for(int i=0;i<=l;i++)
+            {
+                v[i][j]=v[i][j-1];
+                if(i>0)
+                    v[i][j]=(v[i][j]+(v[i-1][j-1]))%mod;
+                if(i<l)
+                    v[i][j]=(v[i][j]+(v[i+1][j-1]))%mod;
+            }
+        }
+        return v[0][s];
+        //return cal(s,0,v);
     }
 };
