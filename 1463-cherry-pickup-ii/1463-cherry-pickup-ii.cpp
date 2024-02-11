@@ -26,7 +26,43 @@ public:
     int cherryPickup(vector<vector<int>>& g) {
         int n=g.size();
         int m=g[0].size();
-        vector<vector<vector<int>>> v(m,vector<vector<int>>(m,vector<int>(n,-1)));
-        return cal(v,n,m,0,m-1,0,g);
+        vector<vector<vector<int>>> v(m,vector<vector<int>>(m,vector<int>(n,0)));
+        for(int j=0;j<m;j++)
+        {
+            for(int k=0;k<m;k++)
+            {
+                if(j==k)
+                    v[j][k][n-1]=g[n-1][j];
+                else
+                    v[j][k][n-1]=g[n-1][j]+g[n-1][k];
+            }
+        }
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int j=0;j<m;j++)
+            {
+                for(int k=0;k<m;k++)
+                {
+                    if(j==k)
+                        v[j][k][i]=g[i][j];
+                    else
+                        v[j][k][i]=g[i][j]+g[i][k]; 
+                    int ans=0;
+                    for(int f=-1;f<=1;f++)
+                    {
+                        for(int l=-1;l<=1;l++)
+                        {
+                            if(j+f>=0 && j+f<m && k+l>=0 && k+l<m)
+                            {
+                                ans=max(ans,v[j+f][k+l][i+1]);
+                            }
+                        }
+                    }
+                    v[j][k][i]+=ans;
+                }
+            }
+        }
+        return v[0][m-1][0];
+        //return cal(v,n,m,0,m-1,0,g);
     }
 };
