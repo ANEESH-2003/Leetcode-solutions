@@ -11,20 +11,16 @@
  */
 class Solution {
 public:
-    int ans=0;
-    int cal(TreeNode* root)
-    {
+    int distributeCoins(TreeNode* root) {
         if(!root)
             return 0;
-        int t=root->val;
-        t+=cal(root->left);
-        t+=cal(root->right);
-        t--;
-        ans+=abs(t);
-        return t;
-    }
-    int distributeCoins(TreeNode* root) {
-        cal(root);
+        int ans=0;
+        ans+=distributeCoins(root->left);
+        ans+=distributeCoins(root->right);
+        root->val--;
+        root->val+=(root->left)?root->left->val:0;
+        root->val+=(root->right)?root->right->val:0;
+        ans+=abs(root->val);
         return ans;
     }
 };
